@@ -568,13 +568,13 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined
 );
 
-// Get stored language from localStorage, defaulting to 'en'
+// Get stored language from localStorage, defaulting to 'es'
 const getStoredLanguage = (): Language => {
-  if (typeof window === "undefined") return "en";
+  if (typeof window === "undefined") return "es";
   const storedLanguage = localStorage.getItem("preferredLanguage");
   return storedLanguage === "en" || storedLanguage === "es"
     ? storedLanguage
-    : "en";
+    : "es";
 };
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({
