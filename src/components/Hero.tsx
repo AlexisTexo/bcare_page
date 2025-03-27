@@ -278,12 +278,16 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="absolute left-1/2 transform -translate-x-1/2 bottom-10 animate-bounce">
+        {/* Ajuste del botón de scroll para mejor posicionamiento en móvil */}
+        <div className="w-full flex justify-center mt-8 md:mt-12 mb-10 md:mb-4 relative">
           <button
             onClick={scrollToFeatures}
             className="flex flex-col items-center justify-center text-gray-400 hover:text-purple transition-colors duration-300 group"
+            aria-label={t("hero.scrollDown")}
           >
-            <span className="text-sm mb-1">{t("hero.scrollDown")}</span>
+            <span className="text-sm mb-1 whitespace-nowrap">
+              {t("hero.scrollDown")}
+            </span>
             <span className="p-2 rounded-full bg-purple/10 group-hover:bg-purple/20 transition-all duration-300">
               <ChevronDown className="w-4 h-4" />
             </span>
