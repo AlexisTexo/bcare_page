@@ -21,6 +21,7 @@ export const translations: Translations = {
   "nav.home": { en: "Home", es: "Inicio" },
   "nav.about": { en: "About Us", es: "Nosotros" },
   "nav.blog": { en: "Blog", es: "Blog" },
+  "nav.landing": { en: "Landing", es: "Landing" },
   "nav.contact": { en: "Contact Us", es: "Contáctanos" },
   "nav.getStarted": { en: "Contact Us", es: "Contáctanos" },
 
@@ -556,6 +557,32 @@ export const translations: Translations = {
 
   // Blog
   "blog.articles": { en: "All Articles", es: "Todos los Artículos" },
+
+  // Landing page
+  "landing.hero.title": {
+    en: "We Develop The Platform Of Your Dreams",
+    es: "Desarrollamos la plataforma de tus sueños",
+  },
+  "landing.hero.subtitle": {
+    en: "Transform your vision into reality with our team of software development experts.",
+    es: "Transforma tu visión en realidad con nuestro equipo de expertos en desarrollo de software.",
+  },
+  "landing.hero.cta": {
+    en: "CONTACT US",
+    es: "CONTÁCTANOS",
+  },
+  "landing.development.title": {
+    en: "Software Development Services",
+    es: "Servicios de Desarrollo de Software",
+  },
+  "landing.development.subtitle": {
+    en: "From concept to reality",
+    es: "Del concepto a la realidad",
+  },
+  "landing.development.description": {
+    en: "We create custom software solutions that solve complex business problems and drive growth.",
+    es: "Creamos soluciones de software personalizadas que resuelven problemas empresariales complejos e impulsan el crecimiento.",
+  },
 };
 
 type LanguageContextType = {

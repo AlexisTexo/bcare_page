@@ -18,6 +18,7 @@ const BlogCategory = lazy(() => import("./pages/BlogCategory"));
 const Contact = lazy(() => import("./pages/Contact"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PolicyAndPrivacy = lazy(() => import("./pages/PolicyAndPrivacy"));
+const Landing = lazy(() => import("./pages/Landing"));
 
 // Loading fallback
 const PageLoading = () => (
@@ -61,6 +62,7 @@ const App = () => (
                     path="/policy-and-privacy"
                     element={<PolicyAndPrivacy />}
                   />
+                  <Route path="/landing" element={<Landing />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
