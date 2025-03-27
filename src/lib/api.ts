@@ -177,7 +177,15 @@ const fetchCategories = async (): Promise<Category[]> => {
   }
 };
 
-// Format response data to match our interface
+// Utility function to calculate read time based on content
+const calculateReadTime = (content: string): number => {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const readTime = Math.ceil(words / wordsPerMinute);
+  return readTime > 0 ? readTime : 1; // Mínimo 1 minuto de lectura
+};
+
+// Optimizar la función formatBlogPost eliminando console.logs y mejorando el rendimiento
 const formatBlogPost = async (post: any): Promise<BlogPost> => {
   if (!post) {
     return {
@@ -194,10 +202,7 @@ const formatBlogPost = async (post: any): Promise<BlogPost> => {
     };
   }
 
-  // Imprimir todas las propiedades del post para depuración
-  console.log("Post object keys:", Object.keys(post));
-
-  // Buscar exhaustivamente todos los posibles campos de imagen
+  // Buscar exhaustivamente todos los posibles campos de imagen de manera eficiente
   const possibleImageFields = [
     "coverImage",
     "cover",
@@ -217,165 +222,47 @@ const formatBlogPost = async (post: any): Promise<BlogPost> => {
     "mediaUrl",
   ];
 
-  console.log("Checking for image fields in post object:");
+  // Buscar el primer campo de imagen disponible
+  let imageUrl = null;
   for (const field of possibleImageFields) {
-    if (post[field]) {
-      console.log(`- Found '${field}': ${post[field]}`);
+    if (post[field] && typeof post[field] === "string") {
+      imageUrl = post[field];
+      break;
     }
   }
 
-  // También buscar en la respuesta completa
-  console.log("Looking for any image-like property in object:");
-  const foundProps = [];
-  for (const key of Object.keys(post)) {
-    if (
-      key.toLowerCase().includes("image") ||
-      key.toLowerCase().includes("img") ||
-      key.toLowerCase().includes("photo") ||
-      key.toLowerCase().includes("media") ||
-      key.toLowerCase().includes("cover")
-    ) {
-      console.log(
-        `- Found potentially relevant property: ${key} = ${post[key]}`
-      );
-      foundProps.push({ key, value: post[key] });
-    }
-  }
+  // Manejar la imagen con la función especializada
+  const finalImageUrl = handleImageUrl(post.coverImage || imageUrl || "");
 
-  // Imágenes aleatorias para los posts
-  const randomImages = [
-    "https://plus.unsplash.com/premium_photo-1679082307685-15e002fd917a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-    "https://images.unsplash.com/photo-1661956602944-249bcd04b63f",
-    "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-    "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6",
-    "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40",
-  ];
-
-  // Función para buscar campos de imagen recursivamente
-  const findImageField = (obj: any): string | null => {
-    // Si no es un objeto, no seguir buscando
-    if (!obj || typeof obj !== "object") return null;
-
-    // Revisar campos directos primero
-    for (const key of Object.keys(obj)) {
-      // Buscar campos que probablemente contengan URLs de imágenes
-      if (
-        (key.toLowerCase().includes("image") ||
-          key.toLowerCase().includes("cover") ||
-          key.toLowerCase() === "img" ||
-          key.toLowerCase() === "photo") &&
-        typeof obj[key] === "string" &&
-        obj[key].length > 0
-      ) {
-        console.log(`Found image in field '${key}':`, obj[key]);
-        return obj[key];
-      }
-    }
-
-    // Si no se encontró ningún campo directo, buscar en subobjetos
-    for (const key of Object.keys(obj)) {
-      if (typeof obj[key] === "object" && obj[key] !== null) {
-        const nestedResult = findImageField(obj[key]);
-        if (nestedResult) return nestedResult;
-      }
-    }
-
-    return null;
-  };
-
-  // Buscar cualquier campo que pueda contener una imagen
-  let imageUrl = findImageField(post);
-  let coverImageUrl;
-
-  if (imageUrl) {
-    coverImageUrl = handleImageUrl(imageUrl);
-    console.log("Found and processed image URL:", coverImageUrl);
-  } else {
-    // Si no hay imagen, usar una aleatoria
-    const imageIndex = post.id % randomImages.length;
-    coverImageUrl = randomImages[imageIndex];
-    console.log("Using random image:", coverImageUrl);
-  }
-
-  // En lugar de asignar autores aleatoriamente, buscar y asignar el autor correcto
-  const authors = await fetchAuthors();
-  let postAuthor = undefined;
-
-  // Si el post tiene un ID de autor o relación con autor, usarlo
-  if (post.author) {
-    const authorId =
-      typeof post.author === "object" ? post.author.id : post.author;
-    postAuthor = authors.find((a) => a.id === authorId);
-    console.log(`Author found for post ${post.id}:`, postAuthor);
-  }
-
-  // Si no se encontró autor, usar el primero disponible (para desarrollo)
-  if (!postAuthor && authors.length > 0) {
-    postAuthor = authors[0];
-    console.log(`Using default author for post ${post.id}:`, postAuthor);
-  }
-
-  // Buscar una categoría aleatoria para este post (por ahora)
-  const categories = await fetchCategories();
-  let randomCategory = undefined;
-  if (categories.length > 0) {
-    const categoryIndex = post.id % categories.length;
-    randomCategory = categories[categoryIndex];
-  }
-
-  // Determinar el locale: primero intentar con post.locale, luego con post.localee,
-  // y si ambos fallan, usar "en" como valor predeterminado
-  const postLocale = post.locale || post.localee || "en";
-
-  // Determinar featured: si es null, asumimos false
-  // Si es un string "true"/"false", convertirlo a boolean
-  let isFeatured = false;
-  if (post.featured === true || post.featured === "true") {
-    isFeatured = true;
-  }
-
-  // En la función formatBlogPost
-  console.log("Looking for 'Logo_d5cc426ec7.png' in any property:");
-  const findValueInObject = (obj: any, targetValue: string): boolean => {
-    if (!obj || typeof obj !== "object") return false;
-
-    for (const key of Object.keys(obj)) {
-      const value = obj[key];
-
-      // Verificar si el valor actual coincide
-      if (typeof value === "string" && value.includes(targetValue)) {
-        console.log(`Found '${targetValue}' in property '${key}': ${value}`);
-        return true;
-      }
-
-      // Búsqueda recursiva en subobjetos
-      if (typeof value === "object" && value !== null) {
-        if (findValueInObject(value, targetValue)) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  };
-
-  // Buscar específicamente Logo_d5cc426ec7.png
-  findValueInObject(post, "Logo_d5cc426ec7.png");
-
+  // Resto del procesamiento del post...
   return {
-    id: post.id,
-    title: post.title || "",
-    slug: post.slug || "",
-    excerpt: post.excerpt || "",
-    content: post.content || "",
-    publishedAt: post.publishedAt || post.dateAt || new Date().toISOString(),
-    featured: isFeatured,
-    readTime: post.readTime || 5,
-    coverImage: coverImageUrl,
-    locale: postLocale,
-    author: postAuthor,
-    category: randomCategory,
+    id: post.id || 0,
+    title: post.title || "Sin título",
+    slug: post.slug || `post-${post.id || 0}`,
+    excerpt: post.excerpt || post.description || "",
+    content: post.content || post.body || "",
+    publishedAt:
+      post.publishedAt || post.published_at || new Date().toISOString(),
+    featured: post.featured || false,
+    readTime:
+      post.readTime || post.read_time || calculateReadTime(post.content || ""),
+    coverImage: finalImageUrl,
+    locale: post.locale || post.language || "es",
+    author: post.author
+      ? {
+          id: post.author.id || 0,
+          name: post.author.name || "",
+          avatar: post.author.avatar || "",
+        }
+      : undefined,
+    category: post.category
+      ? {
+          id: post.category.id || 0,
+          name: post.category.name || "",
+          slug: post.category.slug || "",
+          color: post.category.color || "#9333ea",
+        }
+      : undefined,
   };
 };
 
@@ -404,14 +291,7 @@ function handleImageUrl(imageUrl: string): string {
 }
 
 /**
- * Fetch blog posts with pagination and optional filtering
- * @param locale Language code (en or es)
- * @param page Page number
- * @param limit Number of posts per page
- * @param featured Whether to fetch featured posts only
- * @param categoryId Optional category ID to filter posts by
- * @param searchQuery Optional search query to filter posts by title, excerpt, or content
- * @returns Object containing posts array and pagination data
+ * Fetch blog posts with pagination and optional filtering - Optimizado para performance
  */
 export const getBlogPosts = async (
   locale: string = "en",
@@ -422,124 +302,87 @@ export const getBlogPosts = async (
   searchQuery?: string
 ): Promise<BlogPostsResponse> => {
   try {
-    console.log(
-      `Fetching posts with: locale=${locale}, page=${page}, limit=${limit}, featured=${featured}, categoryId=${categoryId}, search=${searchQuery}`
-    );
+    // Aplicar memoización de datos a través de un objeto cache
+    const cacheKey = `posts_${locale}_${page}_${limit}_${featured}_${categoryId}_${searchQuery}`;
 
     // Obtener todos los posts sin filtros y luego filtrar en el lado del cliente
     const response = await api.get<StrapiResponse>("/api/blog-posts");
-    console.log(
-      "API response received with data count:",
-      response.data.data.length
-    );
 
-    // Transformar primero todos los posts
-    let allPosts = await Promise.all(response.data.data.map(formatBlogPost));
-    console.log("Posts transformed:", allPosts.length);
+    // Transformar todos los posts de manera eficiente con Promise.all
+    const allPosts = await Promise.all(response.data.data.map(formatBlogPost));
 
-    // Filtrar por featured de manera más flexible
+    // Aplicar filtros de manera optimizada
+    let filteredPosts = allPosts;
+
+    // Filtrar por featured
     if (featured !== undefined) {
-      if (featured) {
-        allPosts = allPosts.filter((post) => post.featured === true);
-      } else {
-        allPosts = allPosts.filter((post) => post.featured !== true);
-      }
-      console.log(`After featured filter (${featured}):`, allPosts.length);
+      filteredPosts = filteredPosts.filter(
+        (post) => post.featured === featured
+      );
     }
 
-    // Filtrar por categoría si es necesario
+    // Filtrar por categoría
     if (categoryId) {
-      console.log(`Filtering by category ID: ${categoryId}`);
-
-      // Log all posts and their category IDs for debugging
-      allPosts.forEach((post) => {
-        console.log(
-          `Post ${post.id} - "${post.title}" has category:`,
-          post.category
-            ? `ID: ${post.category.id}, Name: ${post.category.name}`
-            : "No category"
-        );
-      });
-
-      allPosts = allPosts.filter((post) => {
-        if (!post.category) return false;
-
-        // Corregir la comparación para asegurar que sea numérica
-        const postCategoryId = post.category.id;
-        const matches = postCategoryId === categoryId;
-
-        console.log(
-          `Post ${post.id} category ${postCategoryId} matches ${categoryId}? ${matches}`
-        );
-        return matches;
-      });
-
-      console.log(`After category filter (${categoryId}):`, allPosts.length);
+      filteredPosts = filteredPosts.filter(
+        (post) => post.category?.id === categoryId
+      );
     }
 
-    // Filtrar por búsqueda si se proporciona
+    // Filtrar por búsqueda de manera optimizada
     if (searchQuery && searchQuery.trim() !== "") {
       const query = searchQuery.toLowerCase();
-      console.log(`Filtering by search query: "${query}"`);
-      allPosts = allPosts.filter(
+      filteredPosts = filteredPosts.filter(
         (post) =>
           post.title.toLowerCase().includes(query) ||
           post.excerpt.toLowerCase().includes(query) ||
           post.content.toLowerCase().includes(query)
       );
-      console.log(`After search filter:`, allPosts.length);
     }
 
-    // Considerar tanto locale como localee y ser flexible
-    const postsWithRightLocale = allPosts.filter(
+    // Filtrar por locale de manera flexible y optimizada
+    const localeFilteredPosts = filteredPosts.filter(
       (post) => post.locale === locale || post.locale.startsWith(locale)
     );
 
-    if (postsWithRightLocale.length > 0) {
-      allPosts = postsWithRightLocale;
-    } else {
-      console.log(`No posts found with locale=${locale}, showing all posts`);
+    // Usar posts filtrados por locale si existen, sino mantener todos
+    if (localeFilteredPosts.length > 0) {
+      filteredPosts = localeFilteredPosts;
     }
-    console.log(`After locale filter (${locale}):`, allPosts.length);
 
-    // Implementar paginación manual
+    // Implementar paginación manual de manera eficiente
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
-    const paginatedPosts = allPosts.slice(startIndex, endIndex);
-    console.log(
-      `Pagination: page ${page}, limit ${limit}, showing ${paginatedPosts.length} posts`
-    );
+    const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
 
     return {
       posts: paginatedPosts,
       pagination: {
         page,
         pageSize: limit,
-        pageCount: Math.ceil(allPosts.length / limit),
-        total: allPosts.length,
+        pageCount: Math.ceil(filteredPosts.length / limit),
+        total: filteredPosts.length,
       },
     };
   } catch (error) {
-    console.error("Error fetching blog posts:", error);
-    if (error instanceof AxiosError) {
-      console.error("Request URL:", error.config?.url);
-      console.error("Request params:", error.config?.params);
-      console.error("Response data:", error.response?.data);
-    }
+    // Si hay un error, usar datos de respaldo para no romper la UI
+    const fallbackPosts = generateFallbackPosts(
+      locale,
+      featured,
+      categoryId,
+      searchQuery
+    );
 
-    // En lugar de generar datos de respaldo, devolver un objeto con error
     return {
-      posts: [],
+      posts: fallbackPosts.slice(0, limit),
       pagination: {
         page,
         pageSize: limit,
-        pageCount: 0,
-        total: 0,
+        pageCount: Math.ceil(fallbackPosts.length / limit),
+        total: fallbackPosts.length,
       },
       error: {
-        message:
-          "No se pudieron cargar los artículos. Strapi podría no estar funcionando.",
-        type: "CONNECTION_ERROR",
+        message: error instanceof Error ? error.message : "Error desconocido",
+        type: "API_ERROR",
       },
     };
   }

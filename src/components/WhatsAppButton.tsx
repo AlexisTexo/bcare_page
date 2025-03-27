@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -7,6 +7,7 @@ const WhatsAppButton: React.FC = () => {
   const phoneNumber = "5215512007050"; // Formato internacional para México: 521 + número sin el primer 0
   const message = encodeURIComponent(t("whatsapp.message")); // Usar mensaje traducido
 
+  // Construir URL una sola vez para cada cambio de idioma
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (
@@ -38,4 +39,5 @@ const WhatsAppButton: React.FC = () => {
   );
 };
 
-export default WhatsAppButton;
+// Optimizar renderizados innecesarios con memo
+export default memo(WhatsAppButton);

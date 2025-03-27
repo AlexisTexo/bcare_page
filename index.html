@@ -1,26 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Business Care Consulting</title>
-    <meta name="description" content="Business Care Consulting" />
-    <meta name="author" content="Business Care Consulting" />
-
+    <meta
+      name="description"
+      content="Business Care Consulting - Optimiza operaciones y aumenta la eficiencia en solo 3 meses"
+    />
+    <meta name="theme-color" content="#9333EA" />
+    <meta name="robots" content="index, follow" />
     <meta property="og:title" content="Business Care Consulting" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <meta
+      property="og:description"
+      content="Optimiza operaciones y aumenta la eficiencia en tu negocio"
+    />
+    <meta property="og:image" content="/img/og-image.jpg" />
+    <meta property="og:url" content="https://bcareconsulting.com" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://i.imgur.com/Il3wqA1.png" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://i.imgur.com/Il3wqA1.png" />
+    <!-- Precargar fuentes críticas -->
+    <link
+      rel="preload"
+      href="/fonts/main-font.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Precargar CSS crítico -->
+    <link rel="preload" href="/src/index.css" as="style" />
+
+    <!-- Preconectar a dominios externos para establecer conexiones tempranas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+
+    <title>Business Care Consulting</title>
   </head>
-
   <body>
     <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main.tsx" defer></script>
+
+    <!-- Carga diferida (lazy) de scripts no críticos -->
+    <script defer>
+      // Registro de Service Worker para PWA
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js").catch((error) => {
+            console.error("Service worker registration failed:", error);
+          });
+        });
+      }
+    </script>
   </body>
 </html>
