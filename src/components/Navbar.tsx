@@ -101,9 +101,9 @@ const Navbar = () => {
         className={`fixed inset-0 z-40 bg-white md:hidden transition-all duration-300 ease-in-out transform ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
-        style={{ top: "60px" }}
+        style={{ top: "60px", backgroundColor: "white" }}
       >
-        <div className="flex flex-col space-y-6 p-6 pt-10">
+        <div className="flex flex-col space-y-6 p-6 pt-10 bg-white">
           {navLinks.map((link) => (
             <Link
               key={link.path}
