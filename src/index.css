@@ -1,0 +1,445 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 263 82% 51%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 263 82% 51%;
+
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+  }
+
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24;
+    min-height: inherit;
+    position: relative;
+  }
+
+  /* Enhanced glassmorphism effects */
+  .glass-card {
+    @apply backdrop-blur-md bg-white/90 border border-white/20 shadow-soft rounded-2xl relative overflow-hidden;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:shadow-medium hover:-translate-y-1;
+  }
+
+  .frost-panel {
+    @apply backdrop-blur-lg bg-white/50 border border-white/30 shadow-frost rounded-3xl;
+  }
+
+  .glass-button {
+    @apply backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 
+    transition-all duration-300 rounded-full px-6 py-2 text-white shadow-subtle
+    hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-white/50;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-primary bg-clip-text text-transparent;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-primary text-white font-medium px-6 py-3 rounded-full shadow-sm 
+    hover:shadow-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02] 
+    focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-purple font-medium px-6 py-3 rounded-full shadow-sm 
+    hover:shadow-md transition-all duration-300 ease-in-out border border-purple/20
+    focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50;
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .btn-outline:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+  }
+
+  .section-title {
+    @apply font-heading text-3xl md:text-4xl font-bold mb-6 text-center;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-card hover:-translate-y-1;
+  }
+
+  .feature-card {
+    @apply glass-card-hover p-6;
+  }
+
+  /* Animation effects */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .animate-on-scroll.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .animate-fade-in {
+    @apply opacity-0 transition-opacity duration-700;
+    animation: fadeIn 0.7s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    @apply opacity-0 transform translate-y-20 transition-all duration-700;
+    animation: slideUp 0.7s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    @apply opacity-0 transform translate-x-12 transition-all duration-700;
+    animation: slideInRight 0.7s ease-out forwards;
+  }
+
+  .animate-slide-in-left {
+    @apply opacity-0 transform -translate-x-12 transition-all duration-700;
+    animation: slideInLeft 0.7s ease-out forwards;
+  }
+
+  .animate-scale {
+    @apply opacity-0 scale-95 transition-all duration-700;
+    animation: scale 0.7s ease-out forwards;
+  }
+
+  .animate-float {
+    @apply transition-all duration-300;
+    animation: float 5s ease-in-out infinite;
+  }
+
+  /* Float animations for decorative elements */
+  .float-slow {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .float-medium {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .float-fast {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Shimmer effect for skeletons */
+  .shimmer {
+    @apply relative overflow-hidden;
+  }
+
+  .shimmer::before {
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-shimmer-gradient bg-[length:400px_100%];
+    content: "";
+  }
+
+  /* Keyframes */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  /* Nuevas animaciones para la sección de misión y visión */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 15px rgba(124, 58, 237, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+    }
+  }
+
+  /* Animaciones específicas para los paneles */
+  .mission-panel {
+    animation: fadeInLeft 0.8s ease-out forwards;
+  }
+
+  .vision-panel {
+    animation: fadeInRight 0.8s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+
+  .image-panel {
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: 0.4s;
+  }
+
+  /* Eliminar la animación de parpadeo infinito */
+  .pulsing-border {
+    /* Quitar la animación de pulso infinito */
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+  /* Efecto hover con transición suave */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* Add these rules to ensure elements are always visible regardless of animation state */
+.hero-section,
+.features-section,
+.page-hero,
+.feature-content {
+  opacity: 1 !important;
+}
+
+/* Fix for animation elements - we still want to animate them but not lose visibility */
+.hero-section .animate-fade-in,
+.hero-section .animate-slide-up,
+.features-section .animate-fade-in,
+.page-hero .animate-fade-in {
+  opacity: 1;
+  transition-property: opacity, transform;
+  transition-duration: 0.7s;
+  transition-timing-function: ease-out;
+}
+
+/* Fix layout shift during animation */
+.section-container {
+  min-height: inherit;
+  position: relative;
+}
+
+/* Prevent flash and movement of hero elements */
+.hero-section .btn-primary,
+.hero-section .btn-secondary,
+.hero-section h1,
+.hero-section p {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Force initial state to prevent flicker */
+.hero-section *[class*="animate-"] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Ensure footer is loaded with proper opacity */
+.footer {
+  opacity: 1 !important;
+}
+
+/* Styles for loaded components */
+.hero-loaded .animate-fade-in,
+.hero-loaded .animate-slide-up,
+.features-loaded .animate-fade-in {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Fix for Features section cards */
+.features-section .glass-card-hover {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s !important;
+}
+
+/* Better animation timing that won't cause layout shifts */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-loaded .btn-primary,
+  .hero-loaded .btn-secondary {
+    transition: all 0.3s ease-out;
+  }
+}
+
+/* Estilos para el botón de WhatsApp */
+.whatsapp-button {
+  display: inline-flex;
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.pulse-ring {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform-origin: center;
+}
+
+.delay-1 {
+  animation-delay: 0.5s;
+}
+
+.delay-2 {
+  animation-delay: 1s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
