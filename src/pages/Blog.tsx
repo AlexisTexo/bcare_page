@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
+import Helmet from "@/components/SEO/Helmet";
 import {
   Calendar,
   Clock,
@@ -175,200 +176,189 @@ const Blog = () => {
   const showStrapiError = !loading && strapiError;
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
-
-      {/* Hero mejorado con estilos más atractivos */}
-      <div className="relative overflow-hidden">
-        {/* Elementos decorativos de fondo */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-[20%] -right-[10%] w-[60%] h-[60%] rounded-full bg-blue/5 blur-3xl"></div>
-          <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-purple/5 blur-3xl"></div>
-          <div className="absolute top-1/4 right-[15%] w-12 h-12 rounded-full bg-gradient-purple opacity-20 float-slow"></div>
-          <div className="absolute bottom-1/4 left-[20%] w-16 h-16 rounded-full bg-gradient-primary opacity-15 float-fast"></div>
-        </div>
-
-        {/* Use the PageHero component with extra reduced height */}
+    <>
+      <Helmet
+        title={t("blog.title")}
+        description={t("blog.metaDescription")}
+        keywords={t("blog.metaKeywords")}
+        canonicalUrl={`https://bcareconsulting.com/blog`}
+      />
+      <div className="min-h-screen bg-background">
+        <Navbar />
         <PageHero
+          subtitle={t("blog.description")}
           gradientText={t("blog.latest")}
+          regularText={t("blog.articles")}
           reducedHeight={true}
-          className="pt-24 pb-6 relative z-10" // Adjusted padding to make it even more compact
+          className="pt-24 pb-6 relative z-10"
         />
 
-        {/* Badge debajo del título */}
-        <div className="relative z-10 flex justify-center -mt-4 mb-8">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-purple/10 text-purple text-sm font-medium">
-            <Sparkles className="h-4 w-4 mr-1.5" />
-            {t("blog.articles")}
-          </div>
-        </div>
-      </div>
+        {/* Blog Posts Section - Ahora con toda la página dedicada a posts recientes */}
+        <section className="pt-4 pb-10 bg-white">
+          {" "}
+          {/* Reduced top padding */}
+          <div className="section-container">
+            <div className="flex flex-col lg:flex-row gap-12">
+              <div className="lg:w-3/4">
+                <h2 className="text-2xl font-semibold mb-10">
+                  {t("blog.recent")}
+                </h2>
 
-      {/* Blog Posts Section - Ahora con toda la página dedicada a posts recientes */}
-      <section className="pt-4 pb-10 bg-white">
-        {" "}
-        {/* Reduced top padding */}
-        <div className="section-container">
-          <div className="flex flex-col lg:flex-row gap-12">
-            <div className="lg:w-3/4">
-              <h2 className="text-2xl font-semibold mb-10">
-                {t("blog.recent")}
-              </h2>
-
-              {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {[1, 2, 3, 4].map((index) => (
-                    <div
-                      key={index}
-                      className="glass-card overflow-hidden animate-pulse"
-                    >
-                      <div className="h-48 bg-gray-200"></div>
-                      <div className="p-6">
-                        <div className="w-24 h-5 bg-gray-200 rounded-full mb-3"></div>
-                        <div className="w-full h-6 bg-gray-200 rounded-lg mb-2"></div>
-                        <div className="w-full h-4 bg-gray-200 rounded mb-4"></div>
-                        <div className="flex">
-                          <div className="w-20 h-3 bg-gray-200 rounded mr-3"></div>
-                          <div className="w-16 h-3 bg-gray-200 rounded"></div>
+                {loading ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {[1, 2, 3, 4].map((index) => (
+                      <div
+                        key={index}
+                        className="glass-card overflow-hidden animate-pulse"
+                      >
+                        <div className="h-48 bg-gray-200"></div>
+                        <div className="p-6">
+                          <div className="w-24 h-5 bg-gray-200 rounded-full mb-3"></div>
+                          <div className="w-full h-6 bg-gray-200 rounded-lg mb-2"></div>
+                          <div className="w-full h-4 bg-gray-200 rounded mb-4"></div>
+                          <div className="flex">
+                            <div className="w-20 h-3 bg-gray-200 rounded mr-3"></div>
+                            <div className="w-16 h-3 bg-gray-200 rounded"></div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : recentPosts.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {recentPosts.map((post, index) => (
-                    <Link
-                      to={`/blog/${post.slug}`}
-                      key={post.id}
-                      className="glass-card overflow-hidden card-hover animate-on-scroll"
-                      style={{ animationDelay: `${index * 100}ms` }}
-                    >
-                      <div className="h-48 overflow-hidden">
-                        <img
-                          src={post.coverImage}
-                          alt={post.title}
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                          onError={(e) => {
-                            console.error(
-                              `Error loading image for post ${post.id} - ${post.title}:`,
-                              post.coverImage
-                            );
-                            e.currentTarget.src =
-                              "https://images.unsplash.com/photo-1560732488-7b5e485f6504";
-                          }}
-                        />
-                      </div>
-                      <div className="p-6">
-                        <div className="flex items-center mb-3">
-                          {post.category && (
-                            <span
-                              className="text-xs font-medium px-2 py-1 rounded-full"
-                              style={{
-                                backgroundColor: `${
-                                  post.category.color || "#9333ea"
-                                }15`,
-                                color: post.category.color || "#9333ea",
-                              }}
-                            >
-                              {post.category.name}
+                    ))}
+                  </div>
+                ) : recentPosts.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {recentPosts.map((post, index) => (
+                      <Link
+                        to={`/blog/${post.slug}`}
+                        key={post.id}
+                        className="glass-card overflow-hidden card-hover animate-on-scroll"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      >
+                        <div className="h-48 overflow-hidden">
+                          <img
+                            src={post.coverImage}
+                            alt={post.title}
+                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                            onError={(e) => {
+                              console.error(
+                                `Error loading image for post ${post.id} - ${post.title}:`,
+                                post.coverImage
+                              );
+                              e.currentTarget.src =
+                                "https://images.unsplash.com/photo-1560732488-7b5e485f6504";
+                            }}
+                          />
+                        </div>
+                        <div className="p-6">
+                          <div className="flex items-center mb-3">
+                            {post.category && (
+                              <span
+                                className="text-xs font-medium px-2 py-1 rounded-full"
+                                style={{
+                                  backgroundColor: `${
+                                    post.category.color || "#9333ea"
+                                  }15`,
+                                  color: post.category.color || "#9333ea",
+                                }}
+                              >
+                                {post.category.name}
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="text-xl font-semibold mb-2">
+                            {post.title}
+                          </h3>
+                          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                            {post.excerpt}
+                          </p>
+                          <div className="flex items-center text-xs text-gray-500">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            <span className="mr-3">
+                              {formatDate(post.publishedAt)}
                             </span>
-                          )}
+                            <Clock className="h-3 w-3 mr-1" />
+                            <span>
+                              {post.readTime} {t("blog.readTime")}
+                            </span>
+                          </div>
                         </div>
-                        <h3 className="text-xl font-semibold mb-2">
-                          {post.title}
-                        </h3>
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                          {post.excerpt}
-                        </p>
-                        <div className="flex items-center text-xs text-gray-500">
-                          <Calendar className="h-3 w-3 mr-1" />
-                          <span className="mr-3">
-                            {formatDate(post.publishedAt)}
-                          </span>
-                          <Clock className="h-3 w-3 mr-1" />
-                          <span>
-                            {post.readTime} {t("blog.readTime")}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              ) : showStrapiError ? (
-                <div className="glass-card p-8 text-center">
-                  <Ghost className="h-20 w-20 mx-auto mb-4 text-gray-400" />
-                  <p className="text-lg mb-2">{t("blog.connectionError")}</p>
-                  <p className="text-gray-500 mb-4">
-                    {t("blog.strapiNotRunning")}
-                  </p>
-                  <button
-                    onClick={() => fetchBlogData(1)}
-                    className="btn-secondary"
-                  >
-                    {t("blog.tryAgain")}
-                  </button>
-                </div>
-              ) : showNoResults ? (
-                <div className="glass-card p-8 text-center">
-                  <Ghost className="h-20 w-20 mx-auto mb-4 text-gray-400" />
-                  <p className="text-lg mb-2">{t("blog.noResults")}</p>
-                  <p className="text-gray-500 mb-4">
-                    {t("blog.tryDifferentSearch")}
-                  </p>
-                  {searchQuery && (
+                      </Link>
+                    ))}
+                  </div>
+                ) : showStrapiError ? (
+                  <div className="glass-card p-8 text-center">
+                    <Ghost className="h-20 w-20 mx-auto mb-4 text-gray-400" />
+                    <p className="text-lg mb-2">{t("blog.connectionError")}</p>
+                    <p className="text-gray-500 mb-4">
+                      {t("blog.strapiNotRunning")}
+                    </p>
                     <button
-                      onClick={() => setInputValue("")}
+                      onClick={() => fetchBlogData(1)}
                       className="btn-secondary"
                     >
-                      {t("blog.clearSearch")}
+                      {t("blog.tryAgain")}
                     </button>
-                  )}
-                </div>
-              ) : (
-                <div className="glass-card p-8 text-center">
-                  <Ghost className="h-20 w-20 mx-auto mb-4 text-gray-400" />
-                  <p className="text-lg mb-2">{t("blog.noArticles")}</p>
-                  <p className="text-gray-500 mb-4">{t("blog.checkLater")}</p>
-                </div>
-              )}
+                  </div>
+                ) : showNoResults ? (
+                  <div className="glass-card p-8 text-center">
+                    <Ghost className="h-20 w-20 mx-auto mb-4 text-gray-400" />
+                    <p className="text-lg mb-2">{t("blog.noResults")}</p>
+                    <p className="text-gray-500 mb-4">
+                      {t("blog.tryDifferentSearch")}
+                    </p>
+                    {searchQuery && (
+                      <button
+                        onClick={() => setInputValue("")}
+                        className="btn-secondary"
+                      >
+                        {t("blog.clearSearch")}
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="glass-card p-8 text-center">
+                    <Ghost className="h-20 w-20 mx-auto mb-4 text-gray-400" />
+                    <p className="text-lg mb-2">{t("blog.noArticles")}</p>
+                    <p className="text-gray-500 mb-4">{t("blog.checkLater")}</p>
+                  </div>
+                )}
 
-              {hasMore && recentPosts.length > 0 && (
-                <div className="mt-12 flex justify-center">
-                  <button onClick={loadMorePosts} className="btn-primary">
-                    {t("blog.loadMore")}
-                  </button>
-                </div>
-              )}
-            </div>
+                {hasMore && recentPosts.length > 0 && (
+                  <div className="mt-12 flex justify-center">
+                    <button onClick={loadMorePosts} className="btn-primary">
+                      {t("blog.loadMore")}
+                    </button>
+                  </div>
+                )}
+              </div>
 
-            <div className="lg:w-1/4">
-              <div className="glass-card p-6 animate-on-scroll">
-                <h3 className="text-xl font-semibold mb-4">
-                  {t("blog.search")}
-                </h3>
-                <form onSubmit={handleSearch} className="relative">
-                  <input
-                    type="text"
-                    placeholder={t("blog.searchPlaceholder")}
-                    value={inputValue}
-                    onChange={handleSearchChange}
-                    className="w-full bg-white/50 border border-purple/20 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple/30"
-                  />
-                  <button
-                    type="submit"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                  >
-                    <Search className="h-4 w-4 text-purple" />
-                  </button>
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                </form>
+              <div className="lg:w-1/4">
+                <div className="glass-card p-6 animate-on-scroll">
+                  <h3 className="text-xl font-semibold mb-4">
+                    {t("blog.search")}
+                  </h3>
+                  <form onSubmit={handleSearch} className="relative">
+                    <input
+                      type="text"
+                      placeholder={t("blog.searchPlaceholder")}
+                      value={inputValue}
+                      onChange={handleSearchChange}
+                      className="w-full bg-white/50 border border-purple/20 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple/30"
+                    />
+                    <button
+                      type="submit"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    >
+                      <Search className="h-4 w-4 text-purple" />
+                    </button>
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 };
 

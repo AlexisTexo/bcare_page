@@ -3,51 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="apple-touch-icon" href="/img/favicon.png" />
+    <link rel="shortcut icon" href="/img/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Business Care Consulting - Optimiza operaciones y aumenta la eficiencia en solo 3 meses"
+      content="Business Care Consulting - Expertos en optimización de operaciones empresariales. Aumenta la eficiencia de tu negocio en solo 3 meses con nuestras soluciones personalizadas de consultoría."
     />
     <meta name="theme-color" content="#9333EA" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Business Care Consulting" />
+    <meta
+      name="keywords"
+      content="consultoría empresarial, optimización de operaciones, eficiencia empresarial, gestión de negocios, consultoría estratégica"
+    />
+    <meta name="author" content="Business Care Consulting" />
+    <meta name="geo.region" content="ES" />
+    <meta name="geo.position" content="40.416775;-3.703790" />
+    <meta name="ICBM" content="40.416775, -3.703790" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bcareconsulting.com" />
+    <meta
+      property="og:title"
+      content="Business Care Consulting - Optimización de Operaciones Empresariales"
+    />
     <meta
       property="og:description"
-      content="Optimiza operaciones y aumenta la eficiencia en tu negocio"
+      content="Expertos en optimización de operaciones empresariales. Aumenta la eficiencia de tu negocio en solo 3 meses con nuestras soluciones personalizadas."
     />
-    <meta property="og:image" content="/img/og-image.jpg" />
-    <meta property="og:url" content="https://bcareconsulting.com" />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./img/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://bcareconsulting.com" />
+    <meta
+      property="twitter:title"
+      content="Business Care Consulting - Optimización de Operaciones Empresariales"
+    />
+    <meta
+      property="twitter:description"
+      content="Expertos en optimización de operaciones empresariales. Aumenta la eficiencia de tu negocio en solo 3 meses."
+    />
+    <meta property="twitter:image" content="./img/og-image.jpg" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://bcareconsulting.com" />
 
     <!-- Precargar fuentes críticas -->
     <link
       rel="preload"
-      href="/fonts/main-font.woff2"
+      href="./fonts/main-font.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
 
     <!-- Precargar CSS crítico -->
-    <link rel="preload" href="/src/index.css" as="style" />
+    <link rel="preload" href="./src/index.css" as="style" />
 
     <!-- Preconectar a dominios externos para establecer conexiones tempranas -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
 
-    <title>Business Care Consulting</title>
+    <title>
+      Business Care Consulting - Optimización de Operaciones Empresariales
+    </title>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx" defer></script>
+    <script type="module" src="./src/main.tsx" defer></script>
 
     <!-- Carga diferida (lazy) de scripts no críticos -->
     <script defer>
       // Registro de Service Worker para PWA
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("/sw.js").catch((error) => {
+          navigator.serviceWorker.register("./sw.js").catch((error) => {
             console.error("Service worker registration failed:", error);
           });
         });

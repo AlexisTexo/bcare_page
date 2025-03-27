@@ -5,6 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: "./", // Cambiado a ./ para IONOS
   server: {
     host: "::",
     port: 8080,
@@ -42,12 +43,25 @@ export default defineConfig(({ mode }) => ({
           forms: ["@formspree/react", "react-hook-form"],
           data: ["@tanstack/react-query"],
         },
+        // Asegurar que los nombres de los chunks sean consistentes
+        entryFileNames: "assets/[name].[hash].js",
+        chunkFileNames: "assets/[name].[hash].js",
+        assetFileNames: (assetInfo) => {
+          // Mantener el nombre original para el favicon
+          if (assetInfo.name === "favicon.png") {
+            return "img/[name][extname]";
+          }
+          return "assets/[name].[hash].[ext]";
+        },
       },
     },
     // Habilitar chunking para optimizar la carga
     chunkSizeWarningLimit: 1000,
     // Generar reporte de análisis en modo producción
     reportCompressedSize: mode === "production",
+    // Asegurar que los assets se copien correctamente
+    assetsDir: "assets",
+    emptyOutDir: true,
   },
   // Optimizaciones de caché
   optimizeDeps: {
