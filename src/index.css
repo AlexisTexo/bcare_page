@@ -443,3 +443,10 @@
     opacity: 0;
   }
 }
+
+/* Estilos para la animación de fade-in-up */
+.animate-fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
+}

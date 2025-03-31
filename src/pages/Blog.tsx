@@ -230,8 +230,15 @@ const Blog = () => {
                       <Link
                         to={`/blog/${post.slug}`}
                         key={post.id}
-                        className="glass-card overflow-hidden card-hover animate-on-scroll"
-                        style={{ animationDelay: `${index * 100}ms` }}
+                        className="glass-card overflow-hidden card-hover animate-fade-in-up"
+                        style={{
+                          animationDelay: `${index * 100}ms`,
+                          opacity: 0,
+                          transform: "translateY(20px)",
+                          animation: `fadeInUp 0.5s ease forwards ${
+                            index * 100
+                          }ms`,
+                        }}
                       >
                         <div className="h-48 overflow-hidden">
                           <img

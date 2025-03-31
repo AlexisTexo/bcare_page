@@ -63,7 +63,7 @@ const ContactForm = () => {
                     <Input
                       id="firstName"
                       name="firstName"
-                      placeholder="John"
+                      placeholder="Juan"
                       required
                       className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
                     />
@@ -80,7 +80,7 @@ const ContactForm = () => {
                     <Input
                       id="lastName"
                       name="lastName"
-                      placeholder="Doe"
+                      placeholder="Perez"
                       required
                       className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
                     />
@@ -99,7 +99,7 @@ const ContactForm = () => {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="john.doe@example.com"
+                    placeholder="juan.perez@example.com"
                     required
                     className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
                   />

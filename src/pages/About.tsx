@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Helmet from "@/components/SEO/Helmet";
+import ClientsSection from "@/components/ClientsSection";
 import { Users, Award, Target, Clock, Star, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -35,33 +36,6 @@ const About = () => {
     return () => window.removeEventListener("scroll", animateOnScroll);
   }, []);
 
-  const clients = [
-    {
-      name: "Client 1",
-      logo: "https://i.imgur.com/kyGlgPI.png", // Logo 1
-    },
-    {
-      name: "Client 2",
-      logo: "https://i.imgur.com/PidbXY5.png", // Logo 2
-    },
-    {
-      name: "Client 3",
-      logo: "https://i.imgur.com/N8fGp0j.png", // Logo 3
-    },
-    {
-      name: "Client 4",
-      logo: "https://i.imgur.com/LbYv1He.png", // Logo 4
-    },
-    {
-      name: "Client 5",
-      logo: "https://i.imgur.com/PaaUTc9.png", // Logo 5
-    },
-    {
-      name: "Client 6",
-      logo: "https://i.imgur.com/T5cE1zp.png", // Logo 6
-    },
-  ];
-
   return (
     <>
       <Helmet
@@ -87,16 +61,8 @@ const About = () => {
             gradientText={t("about.aboutUs")}
             regularText=""
             subtitle=""
-            className="text-center relative z-10"
+            className="text-center relative z-10 pt-24 pb-6"
           />
-
-          {/* Badge debajo del título */}
-          <div className="relative z-10 flex justify-center -mt-4 mb-10">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-purple/10 text-purple text-sm font-medium">
-              <Sparkles className="h-6 w-4 mr-1.5" />
-              {t("about.mission")}
-            </div>
-          </div>
         </div>
 
         {/* Nuestra Misión y Visión con la imagen */}
@@ -190,38 +156,8 @@ const About = () => {
           </div>
         </section>
 
-        {/* Clients */}
-        <section className="py-20 bg-gradient-to-b from-purple-50 to-white">
-          <div className="section-container">
-            <div className="text-center mb-16">
-              <p className="text-sm uppercase tracking-wider text-purple font-semibold mb-2 animate-on-scroll">
-                {t("about.clients.title")}
-              </p>
-              <h2 className="section-title animate-on-scroll">
-                {t("about.clients.subtitle")}
-              </h2>
-              <p className="max-w-2xl mx-auto text-lg text-gray-600 animate-on-scroll">
-                {t("about.clients.description")}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-              {clients.map((client, index) => (
-                <div
-                  key={index}
-                  className="glass-card p-4 flex items-center justify-center animate-on-scroll hover:shadow-lg transition-all duration-500 hover:-translate-y-1"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  <img
-                    src={client.logo}
-                    alt={client.name}
-                    className="max-h-20 w-auto"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Clients Section */}
+        <ClientsSection variant="infinite" />
 
         {/* Values */}
         <section className="py-0 bg-white">
