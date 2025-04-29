@@ -555,10 +555,10 @@ export const translations: Translations = {
   },
 
   // Añadir nuevas traducciones para mensajes de error de Strapi
-  "blog.connectionError": { en: "Connection Error", es: "Error de Conexión" },
+  "blog.connectionError": { en: "Error", es: "Error" },
   "blog.strapiNotRunning": {
-    en: "The content server (Strapi) is not running or cannot be reached. Please try again later.",
-    es: "El servidor de contenido (Strapi) no está funcionando o no se puede acceder a él. Por favor, inténtelo más tarde.",
+    en: "There was an error. Please try again later.",
+    es: "Hay un error. Por favor, inténtelo más tarde.",
   },
   "blog.tryAgain": { en: "Try Again", es: "Intentar de Nuevo" },
   "blog.noArticles": {
