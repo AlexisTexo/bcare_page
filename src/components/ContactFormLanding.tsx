@@ -29,12 +29,12 @@ const ContactForm = () => {
     <section id="contact" className=" bg-white">
       <div className="section-container">
         <div className="text-center mb-16">
-          <p className="text-sm uppercase tracking-wider text-purple font-semibold mb-2 animate-on-scroll">
+          <p className="text-sm uppercase tracking-wider text-[#BF3131] font-semibold mb-2 animate-on-scroll">
             {t("contact.getInTouch")}
           </p>
           <h2 className="section-title animate-on-scroll">
             {t("contact.simplify")}{" "}
-            <span className="text-gradient">{t("contact.business")}</span>{" "}
+            <span className="text-black">{t("contact.business")}</span>{" "}
             {t("contact.and")}
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-gray-600 animate-on-scroll">
@@ -65,7 +65,7 @@ const ContactForm = () => {
                       name="firstName"
                       placeholder="Juan"
                       required
-                      className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
+                      className="w-full p-3 rounded-lg border border-gray-200 focus:border-[#7D0A0A] focus:ring focus:ring-[#7D0A0A]/20 transition-all"
                     />
                     <ValidationError
                       prefix="First Name"
@@ -82,7 +82,7 @@ const ContactForm = () => {
                       name="lastName"
                       placeholder="Perez"
                       required
-                      className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
+                      className="w-full p-3 rounded-lg border border-gray-200 focus:border-[#7D0A0A] focus:ring focus:ring-[#7D0A0A]/20 transition-all"
                     />
                     <ValidationError
                       prefix="Last Name"
@@ -101,7 +101,7 @@ const ContactForm = () => {
                     type="email"
                     placeholder="juan.perez@example.com"
                     required
-                    className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
+                    className="w-full p-3 rounded-lg border border-gray-200 focus:border-[#7D0A0A] focus:ring focus:ring-[#7D0A0A]/20 transition-all"
                   />
                   <ValidationError
                     prefix="Email"
@@ -118,7 +118,7 @@ const ContactForm = () => {
                     name="phone"
                     type="tel"
                     placeholder="(55) 123-4567"
-                    className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
+                    className="w-full p-3 rounded-lg border border-gray-200 focus:border-[#7D0A0A] focus:ring focus:ring-[#7D0A0A]/20 transition-all"
                   />
                   <ValidationError
                     prefix="Phone"
@@ -135,7 +135,7 @@ const ContactForm = () => {
                     name="requirements"
                     placeholder={t("contact.placeholder")}
                     required
-                    className="w-full p-3 rounded-lg min-h-[120px] border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
+                    className="w-full p-3 rounded-lg min-h-[120px] border border-gray-200 focus:border-[#7D0A0A] focus:ring focus:ring-[#7D0A0A]/20 transition-all"
                   />
                   <ValidationError
                     prefix="Requirements"
@@ -148,7 +148,7 @@ const ContactForm = () => {
                 <Button
                   type="submit"
                   disabled={state.submitting}
-                  className="w-full bg-gradient-primary text-white font-medium px-6 py-6 rounded-lg shadow-sm 
+                  className="w-full bg-gradient-to-br from-[#BE3144] to-[#BF3131] text-white font-medium px-6 py-6 rounded-lg shadow-sm 
                   hover:shadow-md transition-all duration-300 ease-in-out flex items-center justify-center"
                 >
                   {state.submitting ? (
@@ -195,9 +195,8 @@ const ContactForm = () => {
               <Button
                 type="button"
                 onClick={openCalendar}
-                className="w-full bg-white text-purple hover:text-white font-medium px-6 py-6 rounded-lg shadow-sm 
-                hover:shadow-md transition-all duration-300 ease-in-out border border-purple/20
-                flex items-center justify-center"
+                className="w-full bg-[#BF3131] hover:bg-[#7D0A0A] text-white hover:text-white font-medium px-6 py-6 rounded-lg shadow-sm 
+                hover:shadow-md transition-all duration-300 ease-in-out flex items-center justify-center"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 {t("contact.appointment")}
@@ -215,7 +214,7 @@ const ContactForm = () => {
                   </p>
                   <a
                     href="mailto:contact@businessease.com"
-                    className="text-purple hover:underline"
+                    className="text-[#7D0A0A] hover:underline"
                   >
                     alexis.tellez@bcareit.com
                   </a>
@@ -226,7 +225,7 @@ const ContactForm = () => {
                   </p>
                   <a
                     href="tel:+15551234567"
-                    className="text-purple hover:underline"
+                    className="text-[#7D0A0A] hover:underline"
                   >
                     +52 55 1200 7050
                   </a>

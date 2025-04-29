@@ -627,6 +627,26 @@ export const translations: Translations = {
     en: "We create custom software solutions that solve complex business problems and drive growth.",
     es: "Creamos soluciones de software personalizadas que resuelven problemas empresariales complejos e impulsan el crecimiento.",
   },
+
+  // Newsletter translations
+  "blog.newsletter": { en: "Newsletter", es: "Boletín Informativo" },
+  "blog.newsletterDescription": {
+    en: "Subscribe to receive the latest news and articles in your inbox",
+    es: "Suscríbete para recibir las últimas noticias y artículos en tu bandeja de entrada",
+  },
+  "blog.emailPlaceholder": {
+    en: "Your email address",
+    es: "Tu correo electrónico",
+  },
+  "blog.subscribe": { en: "Subscribe", es: "Suscribirse" },
+  "blog.privacyNotice": {
+    en: "We respect your privacy. You can unsubscribe at any time.",
+    es: "Respetamos tu privacidad. Puedes darte de baja en cualquier momento.",
+  },
+  "blog.subscriptionConfirmation": {
+    en: "You have successfully joined our subscriber list.",
+    es: "Te has suscrito correctamente a nuestra lista.",
+  },
 };
 
 type LanguageContextType = {

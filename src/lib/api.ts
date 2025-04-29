@@ -234,6 +234,50 @@ const formatBlogPost = async (post: any): Promise<BlogPost> => {
   // Manejar la imagen con la función especializada
   const finalImageUrl = handleImageUrl(post.coverImage || imageUrl || "");
 
+  // Extracción mejorada de categoría
+  let category = null;
+  if (post.attributes?.category?.data?.attributes) {
+    // Estructura de Strapi v4
+    const catData = post.attributes.category.data.attributes;
+    category = {
+      id: post.attributes.category.data.id || 0,
+      name: catData.name || "",
+      slug: catData.slug || "",
+      color: getCategoryColor(catData.name),
+    };
+  } else if (post.category) {
+    // Estructura directa
+    category = {
+      id: post.category.id || 0,
+      name: post.category.name || "",
+      slug: post.category.slug || "",
+      color: getCategoryColor(post.category.name),
+    };
+  }
+
+  // Extracción mejorada de autor
+  let author = null;
+  if (post.attributes?.author?.data?.attributes) {
+    // Estructura de Strapi v4
+    const authorData = post.attributes.author.data.attributes;
+    author = {
+      id: post.attributes.author.data.id || 0,
+      name: authorData.name || "",
+      role: authorData.role || "",
+      avatar: authorData.avatar || "",
+      bio: authorData.bio || "",
+    };
+  } else if (post.author) {
+    // Estructura directa
+    author = {
+      id: post.author.id || 0,
+      name: post.author.name || "",
+      role: post.author.role || "",
+      avatar: post.author.avatar || "",
+      bio: post.author.bio || "",
+    };
+  }
+
   // Resto del procesamiento del post...
   return {
     id: post.id || 0,
@@ -248,21 +292,8 @@ const formatBlogPost = async (post: any): Promise<BlogPost> => {
       post.readTime || post.read_time || calculateReadTime(post.content || ""),
     coverImage: finalImageUrl,
     locale: post.locale || post.language || "es",
-    author: post.author
-      ? {
-          id: post.author.id || 0,
-          name: post.author.name || "",
-          avatar: post.author.avatar || "",
-        }
-      : undefined,
-    category: post.category
-      ? {
-          id: post.category.id || 0,
-          name: post.category.name || "",
-          slug: post.category.slug || "",
-          color: post.category.color || "#9333ea",
-        }
-      : undefined,
+    author: author,
+    category: category,
   };
 };
 
@@ -305,8 +336,12 @@ export const getBlogPosts = async (
     // Aplicar memoización de datos a través de un objeto cache
     const cacheKey = `posts_${locale}_${page}_${limit}_${featured}_${categoryId}_${searchQuery}`;
 
-    // Obtener todos los posts sin filtros y luego filtrar en el lado del cliente
-    const response = await api.get<StrapiResponse>("/api/blog-posts");
+    // Obtener todos los posts con datos relacionados
+    const response = await api.get<StrapiResponse>(
+      "/api/blog-posts?populate=*"
+    );
+
+    console.log("API Response structure:", response.data);
 
     // Transformar todos los posts de manera eficiente con Promise.all
     const allPosts = await Promise.all(response.data.data.map(formatBlogPost));
@@ -364,6 +399,7 @@ export const getBlogPosts = async (
       },
     };
   } catch (error) {
+    console.error("Error fetching blog posts:", error);
     // Si hay un error, usar datos de respaldo para no romper la UI
     const fallbackPosts = generateFallbackPosts(
       locale,
@@ -560,21 +596,35 @@ export const getBlogPostBySlug = async (
   locale = "en"
 ): Promise<BlogPost | null> => {
   try {
-    // Obtenemos todos los posts y filtramos por slug
-    const response = await api.get<StrapiResponse>("/api/blog-posts");
+    console.log(`Fetching blog post with slug: ${slug}`);
+
+    // Intenta obtener los datos con la ruta específica primero
+    const response = await api.get(
+      `/api/blog-posts?filters[slug][$eq]=${slug}&populate=*`
+    );
+
+    if (response.data && response.data.data && response.data.data.length > 0) {
+      const postData = response.data.data[0];
+      console.log("Post data from API:", postData);
+      return await formatBlogPost(postData);
+    }
+
+    // Si no se encuentra, buscar en todos los posts
+    const allPostsResponse = await api.get("/api/blog-posts?populate=*");
 
     // Buscar el post con el slug correspondiente
-    const postData = response.data.data.find((post) => post.slug === slug);
+    const postData = allPostsResponse.data.data.find(
+      (post: any) => post.slug === slug || post.attributes?.slug === slug
+    );
 
     if (!postData) {
+      console.log(`No post found with slug: ${slug}`);
       return null;
     }
 
     return await formatBlogPost(postData);
   } catch (error) {
     console.error(`Error fetching blog post with slug ${slug}:`, error);
-
-    // En vez de retornar un post ficticio, retornar null para que la UI lo maneje
     return null;
   }
 };
@@ -589,6 +639,168 @@ export const getBlogCategories = async (locale = "en"): Promise<Category[]> => {
     console.error("Error fetching blog categories:", error);
     return [];
   }
+};
+
+// Función para obtener color de categoría basado en el nombre
+export const getCategoryColor = (categoryName: string): string => {
+  if (!categoryName) return "#9333ea"; // Color por defecto si no hay nombre
+
+  // Convertir a minúsculas para hacer la comparación insensible a mayúsculas/minúsculas
+  const normalizedName = categoryName.toLowerCase();
+
+  const categoryColors: Record<string, string> = {
+    ciencia: "#2563eb", // Azul
+    tecnología: "#3674B5", // Cian
+    tecnologia: "#3674B5", // Sin tilde
+    ciberseguridad: "#9333ea", // Violeta
+    startup: "#16a34a", // Verde
+    startups: "#16a34a", // Plural
+    negocios: "#f59e0b", // Ámbar
+    desarrollo: "#dc2626", // Rojo
+    innovación: "#8b5cf6", // Púrpura
+    innovacion: "#8b5cf6", // Sin tilde
+    "inteligencia artificial": "#0ea5e9", // Azul cielo
+  };
+
+  return categoryColors[normalizedName] || "#9333ea"; // Color por defecto si no existe
+};
+
+// Función para suscribirse al newsletter que puede integrarse con diferentes servicios
+export const subscribeToNewsletter = async (
+  email: string,
+  service = "sendgrid"
+) => {
+  try {
+    // Aquí puedes implementar la integración con diferentes servicios
+    switch (service) {
+      case "sendgrid":
+        return await subscribeWithSendGrid(email);
+      case "brevo":
+        return await subscribeWithBrevo(email);
+      case "convertkit":
+        return await subscribeWithConvertKit(email);
+      case "mailchimp":
+        return await subscribeWithMailchimp(email);
+      default:
+        return await subscribeWithSendGrid(email);
+    }
+  } catch (error) {
+    console.error("Error subscribing to newsletter:", error);
+    throw error;
+  }
+};
+
+// Función específica para suscribirse con SendGrid
+const subscribeWithSendGrid = async (email: string): Promise<boolean> => {
+  try {
+    console.log("Subscribing with SendGrid:", email);
+
+    // Usar import.meta.env en lugar de process.env
+    const apiKey = import.meta.env.VITE_SENDGRID_API_KEY || "";
+
+    if (!apiKey) {
+      console.error("SendGrid API key is not defined");
+      return false;
+    }
+
+    // Resto del código para SendGrid...
+    const response = await fetch(
+      "https://api.sendgrid.com/v3/marketing/contacts",
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contacts: [{ email }],
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("SendGrid error:", errorData);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error subscribing with SendGrid:", error);
+    return false;
+  }
+};
+
+// Implementación para Brevo (anteriormente Sendinblue)
+const subscribeWithBrevo = async (email: string): Promise<boolean> => {
+  try {
+    console.log("Subscribing with Brevo:", email);
+
+    // API key proporcionada
+    const apiKey =
+      "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";
+
+    if (!apiKey) {
+      console.error("Brevo API key is not defined");
+      return false;
+    }
+
+    // Implementación real de la API de Brevo
+    const response = await fetch("https://api.sendinblue.com/v3/contacts", {
+      method: "POST",
+      headers: {
+        "api-key": apiKey,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        updateEnabled: true,
+        attributes: {
+          SOURCE: "website",
+        },
+        listIds: [2], // Asumiendo que el ID de la lista es 2, ajusta según tu cuenta de Brevo
+      }),
+    });
+
+    // Log de la respuesta para debugging
+    const responseData = await response.json();
+    console.log("Brevo API response:", responseData);
+
+    if (!response.ok) {
+      // Si existe el email ya en la lista, se considera éxito
+      if (
+        response.status === 400 &&
+        responseData.message &&
+        responseData.message.includes("already exist")
+      ) {
+        console.log("Email already exists in Brevo:", email);
+        return true;
+      }
+
+      console.error("Brevo API error:", responseData);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error subscribing with Brevo:", error);
+    return false;
+  }
+};
+
+// Implementación para ConvertKit
+const subscribeWithConvertKit = async (email: string) => {
+  // Implementación para ConvertKit
+  console.log(`Simulando suscripción con ConvertKit para: ${email}`);
+  return true;
+};
+
+// Implementación para Mailchimp
+const subscribeWithMailchimp = async (email: string) => {
+  // Implementación para Mailchimp
+  console.log(`Simulando suscripción con Mailchimp para: ${email}`);
+  return true;
 };
 
 export default api;

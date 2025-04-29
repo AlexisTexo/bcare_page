@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Helmet from "@/components/SEO/Helmet";
+import Newsletter from "@/components/Newsletter";
 import {
   Calendar,
   Clock,
@@ -11,9 +12,18 @@ import {
   Search,
   Ghost,
   Sparkles,
+  User,
+  Tag,
+  Mail,
+  CheckCircle,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { BlogPost, getBlogPosts } from "@/lib/api";
+import {
+  BlogPost,
+  getBlogPosts,
+  getCategoryColor,
+  subscribeToNewsletter,
+} from "@/lib/api";
 import { format } from "date-fns";
 import { es, enUS } from "date-fns/locale";
 
@@ -207,10 +217,7 @@ const Blog = () => {
                 {loading ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {[1, 2, 3, 4].map((index) => (
-                      <div
-                        key={index}
-                        className="glass-card overflow-hidden animate-pulse"
-                      >
+                      <div key={index} className="glass-card overflow-hidden">
                         <div className="h-48 bg-gray-200"></div>
                         <div className="p-6">
                           <div className="w-24 h-5 bg-gray-200 rounded-full mb-3"></div>
@@ -230,21 +237,13 @@ const Blog = () => {
                       <Link
                         to={`/blog/${post.slug}`}
                         key={post.id}
-                        className="glass-card overflow-hidden card-hover animate-fade-in-up"
-                        style={{
-                          animationDelay: `${index * 100}ms`,
-                          opacity: 0,
-                          transform: "translateY(20px)",
-                          animation: `fadeInUp 0.5s ease forwards ${
-                            index * 100
-                          }ms`,
-                        }}
+                        className="glass-card overflow-hidden card-hover"
                       >
                         <div className="h-48 overflow-hidden">
                           <img
                             src={post.coverImage}
                             alt={post.title}
-                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                            className="w-full h-full object-cover"
                             onError={(e) => {
                               console.error(
                                 `Error loading image for post ${post.id} - ${post.title}:`,
@@ -256,19 +255,25 @@ const Blog = () => {
                           />
                         </div>
                         <div className="p-6">
-                          <div className="flex items-center mb-3">
+                          <div className="flex items-center justify-between mb-3">
                             {post.category && (
                               <span
                                 className="text-xs font-medium px-2 py-1 rounded-full"
                                 style={{
-                                  backgroundColor: `${
-                                    post.category.color || "#9333ea"
-                                  }15`,
-                                  color: post.category.color || "#9333ea",
+                                  backgroundColor: `${getCategoryColor(
+                                    post.category.name
+                                  )}15`,
+                                  color: getCategoryColor(post.category.name),
                                 }}
                               >
                                 {post.category.name}
                               </span>
+                            )}
+                            {post.author && (
+                              <div className="flex items-center text-gray-600 text-xs">
+                                <User className="h-3 w-3 mr-1" />
+                                <span>{post.author.name}</span>
+                              </div>
                             )}
                           </div>
                           <h3 className="text-xl font-semibold mb-2">
@@ -360,6 +365,23 @@ const Blog = () => {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   </form>
                 </div>
+
+                {/* Reemplazar el panel de newsletter con el componente - pasamos la clase para animar y una función para manejar la suscripción */}
+                <Newsletter
+                  className="mt-6 animate-fade-in-up shadow-md"
+                  onSubmit={async (email) => {
+                    try {
+                      const success = await subscribeToNewsletter(
+                        email,
+                        "brevo"
+                      );
+                      return success;
+                    } catch (error) {
+                      console.error("Error al suscribirse:", error);
+                      return false;
+                    }
+                  }}
+                />
               </div>
             </div>
           </div>

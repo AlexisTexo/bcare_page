@@ -61,7 +61,7 @@ const Contact = () => {
         <section className=" bg-white">
           <div className="section-container">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="glass-card p-8 text-center animate-on-scroll hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+              <div className="glass-card p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                 <div className="bg-gradient-primary mx-auto p-3 rounded-xl inline-block mb-4">
                   <Mail className="h-8 w-8 text-white" />
                 </div>
@@ -71,7 +71,7 @@ const Contact = () => {
                 <p className="text-gray-600">{t("contact.email.value")}</p>
               </div>
 
-              <div className="glass-card p-8 text-center animate-on-scroll hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+              <div className="glass-card p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                 <div className="bg-gradient-primary mx-auto p-3 rounded-xl inline-block mb-4">
                   <Phone className="h-8 w-8 text-white" />
                 </div>
@@ -81,7 +81,7 @@ const Contact = () => {
                 <p className="text-gray-600">{t("contact.phone.value")}</p>
               </div>
 
-              <div className="glass-card p-8 text-center animate-on-scroll hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+              <div className="glass-card p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                 <div className="bg-gradient-primary mx-auto p-3 rounded-xl inline-block mb-4">
                   <MapPin className="h-8 w-8 text-white" />
                 </div>

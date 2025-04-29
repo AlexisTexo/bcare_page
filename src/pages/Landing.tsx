@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Benefits from "@/components/Benefits";
-import ContactForm from "@/components/ContactForm";
+import Benefits from "@/components/BenefitsLanding";
+import ContactForm from "@/components/ContactFormLanding";
 import Helmet from "@/components/SEO/Helmet";
-import ClientsSection from "@/components/ClientsSection";
+import ClientsSection from "@/components/ClientsSectionLanding";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -28,7 +28,6 @@ const Landing = () => {
       // When element is in viewport
       if (elementTop < window.innerHeight * 0.8 && elementBottom > 0) {
         element.classList.add("animate");
-        element.classList.add("animate-fade-in-up");
       }
     });
   };
@@ -57,11 +56,11 @@ const Landing = () => {
           {/* Background Image with Gradient */}
           <div className="absolute inset-0">
             <img
-              src="https://images.pexels.com/photos/925786/pexels-photo-925786.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              src="/img/landing_img.webp"
               alt="Equipo de desarrollo"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/90 via-[#493D9E]/80 to-[#DAD2FF]/90"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#BF3131]/90 via-[#7D0A0A]/50 to-transparent"></div>
           </div>
 
           {/* Pattern Overlay */}
@@ -82,7 +81,7 @@ const Landing = () => {
                       .getElementById("contact-form")
                       ?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold inline-flex items-center hover:bg-purple hover:text-white transition-all shadow-lg cursor-pointer"
+                  className="bg-white text-black px-8 py-4 rounded-full font-semibold inline-flex items-center hover:bg-[#BF3131] hover:text-white transition-all shadow-lg cursor-pointer"
                 >
                   <span>{t("landing.hero.cta")}</span>
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -96,9 +95,12 @@ const Landing = () => {
                   <div className="relative">
                     <div className="absolute -inset-4 bg-white/10 rounded-3xl blur-3xl"></div>
                     <div className="absolute -inset-4 bg-red-500/10 rounded-3xl blur-3xl"></div>
-                    <div className="relative glass-card p-8 backdrop-blur-sm bg-white/10 border border-white/20">
+                    <div
+                      className="relative glass-card p-8 backdrop-blur-sm bg-white/10 border border-white/20 
+                      transition-all duration-300 hover:bg-[#BF3131]/20 hover:scale-105 hover:shadow-lg cursor-pointer"
+                    >
                       <div className="text-white text-center">
-                        <h3 className="text-2xl font-bold mb-2">10+</h3>
+                        <h3 className="text-5xl font-bold mb-2">10+</h3>
                         <p className="text-white/80">
                           {t("landing.stats.experience")}
                         </p>
@@ -112,9 +114,12 @@ const Landing = () => {
                   <div className="relative">
                     <div className="absolute -inset-4 bg-white/10 rounded-3xl blur-3xl"></div>
                     <div className="absolute -inset-4 bg-red-500/10 rounded-3xl blur-3xl"></div>
-                    <div className="relative glass-card p-8 backdrop-blur-sm bg-white/10 border border-white/20">
+                    <div
+                      className="relative glass-card p-8 backdrop-blur-sm bg-white/10 border border-white/20
+                      transition-all duration-300 hover:bg-[#BF3131]/20 hover:scale-105 hover:shadow-lg cursor-pointer"
+                    >
                       <div className="text-white text-center">
-                        <h3 className="text-2xl font-bold mb-2">20+</h3>
+                        <h3 className="text-5xl font-bold mb-2">20+</h3>
                         <p className="text-white/80">
                           {t("landing.stats.clients")}
                         </p>
@@ -128,9 +133,12 @@ const Landing = () => {
                   <div className="relative">
                     <div className="absolute -inset-4 bg-white/10 rounded-3xl blur-3xl"></div>
                     <div className="absolute -inset-4 bg-red-500/10 rounded-3xl blur-3xl"></div>
-                    <div className="relative glass-card p-8 backdrop-blur-sm bg-white/10 border border-white/20">
+                    <div
+                      className="relative glass-card p-8 backdrop-blur-sm bg-white/10 border border-white/20
+                      transition-all duration-300 hover:bg-[#BF3131]/20 hover:scale-105 hover:shadow-lg cursor-pointer"
+                    >
                       <div className="text-white text-center">
-                        <h3 className="text-2xl font-bold mb-2">20+</h3>
+                        <h3 className="text-5xl font-bold mb-2">20+</h3>
                         <p className="text-white/80">
                           {t("landing.stats.projects")}
                         </p>
@@ -144,7 +152,7 @@ const Landing = () => {
         </section>
 
         {/* Clients Section */}
-        <ClientsSection variant="infinite" />
+        <ClientsSection variant="infinite" scrollSpeed="medium" />
 
         {/* Benefits component */}
         <Benefits />

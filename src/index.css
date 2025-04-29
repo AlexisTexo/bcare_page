@@ -136,6 +136,52 @@
     transform: translateY(0);
   }
 
+  /* Carrusel infinito con diferentes velocidades */
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(
+        calc(-250px * 10)
+      ); /* Ancho de cada elemento * número de clientes */
+    }
+  }
+
+  @keyframes scrollSlow {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(
+        calc(-250px * 10)
+      ); /* Ancho de cada elemento * número de clientes */
+    }
+  }
+
+  @keyframes scrollFast {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(
+        calc(-250px * 10)
+      ); /* Ancho de cada elemento * número de clientes */
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 40s linear infinite;
+  }
+
+  .animate-scroll-slow {
+    animation: scrollSlow 60s linear infinite;
+  }
+
+  .animate-scroll-fast {
+    animation: scrollFast 25s linear infinite;
+  }
+
   .animate-fade-in {
     @apply opacity-0 transition-opacity duration-700;
     animation: fadeIn 0.7s ease-out forwards;

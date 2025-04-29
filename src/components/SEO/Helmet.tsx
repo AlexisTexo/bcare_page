@@ -12,7 +12,7 @@ const Helmet = ({
   title,
   description,
   keywords,
-  ogImage = "/img/og-image.jpg",
+  ogImage = "/img/og_image.jpg",
   canonicalUrl,
 }: HelmetProps) => {
   useEffect(() => {

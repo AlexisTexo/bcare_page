@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Calendar, Clock, ArrowLeft, Tag, Ghost } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, Tag, Ghost, User } from "lucide-react";
 import { format } from "date-fns";
 import { es, enUS } from "date-fns/locale";
 import ReactMarkdown from "react-markdown";
@@ -8,7 +8,7 @@ import ReactMarkdown from "react-markdown";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { BlogPost, getBlogPostBySlug } from "@/lib/api";
+import { BlogPost, getBlogPostBySlug, getCategoryColor } from "@/lib/api";
 
 const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -173,10 +173,19 @@ const BlogDetail = () => {
 
                 {post.category && (
                   <div className="flex items-center">
-                    <Tag className="h-5 w-5 mr-2 text-purple" />
+                    <Tag
+                      className="h-5 w-5 mr-2"
+                      style={{ color: getCategoryColor(post.category.name) }}
+                    />
                     <Link
                       to={`/blog/category/${post.category.slug}`}
-                      className="hover:text-purple transition-colors"
+                      className="hover:underline transition-colors px-2 py-1 rounded-full text-sm"
+                      style={{
+                        backgroundColor: `${getCategoryColor(
+                          post.category.name
+                        )}15`,
+                        color: getCategoryColor(post.category.name),
+                      }}
                     >
                       {post.category.name}
                     </Link>
@@ -201,12 +210,17 @@ const BlogDetail = () => {
               </div>
 
               {post.author && (
-                <div className="flex items-center p-5 bg-gray-50 rounded-xl mb-8">
+                <div className="flex items-center p-5 bg-gray-50 rounded-xl mb-8 hover:shadow-md transition-all">
                   <div className="mr-4">
                     <img
                       src={post.author.avatar}
                       alt={post.author.name}
-                      className="w-16 h-16 rounded-full object-cover"
+                      className="w-16 h-16 rounded-full object-cover border-2"
+                      style={{
+                        borderColor: post.category
+                          ? getCategoryColor(post.category.name)
+                          : "#9333ea",
+                      }}
                       loading="eager"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
@@ -217,9 +231,19 @@ const BlogDetail = () => {
                     />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">
-                      {post.author.name}
-                    </h3>
+                    <div className="flex items-center">
+                      <User
+                        className="h-4 w-4 mr-2"
+                        style={{
+                          color: post.category
+                            ? getCategoryColor(post.category.name)
+                            : "#9333ea",
+                        }}
+                      />
+                      <h3 className="font-semibold text-lg">
+                        {post.author.name}
+                      </h3>
+                    </div>
                     {post.author.bio && (
                       <p className="text-gray-600 text-sm">{post.author.bio}</p>
                     )}
@@ -228,7 +252,48 @@ const BlogDetail = () => {
               )}
 
               <div className="prose prose-lg max-w-none">
-                <ReactMarkdown>{post.content}</ReactMarkdown>
+                <ReactMarkdown
+                  components={{
+                    h1: ({ node, ...props }) => (
+                      <h1 className="text-3xl font-bold my-4" {...props} />
+                    ),
+                    h2: ({ node, ...props }) => (
+                      <h2 className="text-2xl font-bold my-4" {...props} />
+                    ),
+                    h3: ({ node, ...props }) => (
+                      <h3 className="text-xl font-bold my-3" {...props} />
+                    ),
+                    a: ({ node, ...props }) => (
+                      <a className="text-blue-600 hover:underline" {...props} />
+                    ),
+                    ul: ({ node, ...props }) => (
+                      <ul className="list-disc pl-6 my-4" {...props} />
+                    ),
+                    ol: ({ node, ...props }) => (
+                      <ol className="list-decimal pl-6 my-4" {...props} />
+                    ),
+                    blockquote: ({ node, ...props }) => (
+                      <blockquote
+                        className="border-l-4 border-gray-300 pl-4 italic my-4"
+                        {...props}
+                      />
+                    ),
+                    code: ({ node, ...props }) => (
+                      <code
+                        className="bg-gray-100 rounded px-1 py-0.5 font-mono text-sm"
+                        {...props}
+                      />
+                    ),
+                    pre: ({ node, ...props }) => (
+                      <pre
+                        className="bg-gray-100 rounded p-4 overflow-x-auto my-4 font-mono text-sm"
+                        {...props}
+                      />
+                    ),
+                  }}
+                >
+                  {post.content}
+                </ReactMarkdown>
               </div>
             </div>
           ) : (
@@ -268,10 +333,26 @@ const BlogDetail = () => {
                     />
                   </div>
                   <div className="p-6">
-                    <div className="flex items-center mb-3">
-                      <span className="bg-purple/10 text-purple text-xs font-medium px-2 py-1 rounded-full">
-                        {relatedPost.category?.name}
-                      </span>
+                    <div className="flex items-center justify-between mb-3">
+                      {relatedPost.category && (
+                        <span
+                          className="text-xs font-medium px-2 py-1 rounded-full"
+                          style={{
+                            backgroundColor: `${getCategoryColor(
+                              relatedPost.category.name
+                            )}15`,
+                            color: getCategoryColor(relatedPost.category.name),
+                          }}
+                        >
+                          {relatedPost.category.name}
+                        </span>
+                      )}
+                      {relatedPost.author && (
+                        <div className="flex items-center text-gray-600 text-xs">
+                          <User className="h-3 w-3 mr-1" />
+                          <span>{relatedPost.author.name}</span>
+                        </div>
+                      )}
                     </div>
                     <h3 className="text-xl font-semibold mb-2">
                       {relatedPost.title}
@@ -296,8 +377,6 @@ const BlogDetail = () => {
           </div>
         </section>
       )}
-
-      <Footer />
     </div>
   );
 };

@@ -93,7 +93,7 @@ const ClientsSection = ({
       <div className="section-container">
         {showTitle && (
           <div className="text-center mb-16">
-            <p className="text-sm uppercase tracking-wider text-purple font-semibold mb-2 opacity-0 translate-y-6 animate-on-scroll">
+            <p className="text-sm uppercase tracking-wider text-[#BF3131] font-semibold mb-2 opacity-0 translate-y-6 animate-on-scroll">
               {t("about.clients.title")}
             </p>
             <h2 className="section-title opacity-0 translate-y-4 animate-on-scroll">
