@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ContactForm from "@/components/ContactForm";
 import PageHero from "@/components/PageHero";
 import Helmet from "@/components/SEO/Helmet";
-import ClientsSection from "@/components/ClientsSection";
-import ContactForm from "@/components/ContactForm";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { MapPin, Mail, Phone, Clock } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Contact = () => {
@@ -37,6 +36,33 @@ const Contact = () => {
     return () => window.removeEventListener("scroll", animateOnScroll);
   }, []);
 
+  const contactInfo = [
+    {
+      icon: <MapPin className="h-8 w-8 text-purple" />,
+      title: t("contact.office"),
+      details: [
+        "Av. P.º de la Reforma 404",
+        " Juárez, Cuauhtémoc, 06600",
+        "Ciudad de México",
+      ],
+    },
+    {
+      icon: <Mail className="h-8 w-8 text-purple" />,
+      title: t("contact.email"),
+      details: ["contact@bcareconsulting.com"],
+    },
+    {
+      icon: <Phone className="h-8 w-8 text-purple" />,
+      title: t("contact.phone"),
+      details: ["+52 (55) 1234-5678"],
+    },
+    {
+      icon: <Clock className="h-8 w-8 text-purple" />,
+      title: t("contact.hours"),
+      details: ["Lun - Vie: 9:00 AM - 6:00 PM"],
+    },
+  ];
+
   return (
     <>
       <Helmet
@@ -45,60 +71,72 @@ const Contact = () => {
         keywords={t("contact.metaKeywords")}
         canonicalUrl="https://bcareconsulting.com/contact"
       />
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-background">
         <Navbar />
-
-        {/* Hero Section */}
         <PageHero
-          gradientText={t("contact.contactUs")}
+          subtitle={t("contact.description")}
+          gradientText={t("contact.title")}
           regularText={t("contact.subtitle")}
-          subtitle=""
           reducedHeight={true}
           className="pt-24 pb-6 relative z-10"
         />
 
-        {/* Contact Information Cards */}
+        {/* Contact Information */}
         <section className=" bg-white">
           <div className="section-container">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="glass-card p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div className="bg-gradient-primary mx-auto p-3 rounded-xl inline-block mb-4">
-                  <Mail className="h-8 w-8 text-white" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {contactInfo.map((info, index) => (
+                <div
+                  key={index}
+                  className="glass-card p-8 text-center animate-on-scroll"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="inline-flex items-center justify-center bg-purple/10 p-4 rounded-full mb-4">
+                    {info.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">{info.title}</h3>
+                  <div className="space-y-1">
+                    {info.details.map((detail, idx) => (
+                      <p key={idx} className="text-gray-600">
+                        {detail}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {t("contact.email.title")}
-                </h3>
-                <p className="text-gray-600">{t("contact.email.value")}</p>
-              </div>
-
-              <div className="glass-card p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div className="bg-gradient-primary mx-auto p-3 rounded-xl inline-block mb-4">
-                  <Phone className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {t("contact.phone.title")}
-                </h3>
-                <p className="text-gray-600">{t("contact.phone.value")}</p>
-              </div>
-
-              <div className="glass-card p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div className="bg-gradient-primary mx-auto p-3 rounded-xl inline-block mb-4">
-                  <MapPin className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {t("contact.address.title")}
-                </h3>
-                <p className="text-gray-600">{t("contact.address.value")}</p>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Clients Section */}
-        <ClientsSection variant="infinite" />
-
-        {/* Contact Form Section */}
+        {/* Contact Form - Moved here, directly after the contact information */}
         <ContactForm />
+
+        {/* Map */}
+        <section className="py-0 bg-gradient-to-b from-purple-50 to-white">
+          <div className="section-container">
+            <div className="text-center mb-12">
+              <h2 className="section-title animate-on-scroll">
+                {t("contact.findMap")}{" "}
+                <span className="text-gradient">{t("contact.map")}</span>
+              </h2>
+            </div>
+
+            <div className="glass-card overflow-hidden rounded-2xl h-[400px] animate-on-scroll">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d940.6762060521547!2d-99.17067039999999!3d19.4251556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff49786eed8b%3A0xd17dbd9f81a56827!2sEdificio%20Moncayo!5e0!3m2!1ses!2smx!4v1743022282916!5m2!1ses!2smx"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Business Ease Location"
+              ></iframe>
+            </div>
+          </div>
+        </section>
+
+        <Footer />
       </div>
     </>
   );

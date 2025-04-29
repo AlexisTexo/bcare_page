@@ -58,11 +58,11 @@ const PageHero: React.FC<PageHeroProps> = ({
             } font-bold mb-4`}
           >
             {gradientText && (
-              <span className="bg-gradient-to-r from-purple to-blue bg-clip-text text-transparent">
+              <span className="text-gradient bg-clip-text text-transparent animate-gradient">
                 {gradientText}
               </span>
             )}
-            {regularText && <span className="text-black">{regularText}</span>}
+            {regularText && <> {regularText}</>}
           </h1>
         </div>
       </div>

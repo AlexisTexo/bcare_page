@@ -147,14 +147,6 @@ export default {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
         },
-        scroll: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
-        },
-        "fade-in-up": {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -167,8 +159,6 @@ export default {
         "pulse-soft": "pulse-soft 2s infinite",
         shimmer: "shimmer 2s linear infinite",
         "rotate-slow": "rotate-slow 12s linear infinite",
-        scroll: "scroll 60s linear infinite",
-        "fade-in-up": "fade-in-up 0.6s ease-out forwards",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

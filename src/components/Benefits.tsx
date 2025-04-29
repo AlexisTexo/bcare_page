@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Layers,
   BarChart,
@@ -44,6 +44,28 @@ const Benefits = () => {
       description: t("benefits.scalability.desc"),
     },
   ];
+
+  useEffect(() => {
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll(".animate-on-scroll");
+
+      elements.forEach((element) => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementBottom = element.getBoundingClientRect().bottom;
+
+        // When element is in viewport
+        if (elementTop < window.innerHeight * 0.8 && elementBottom > 0) {
+          element.classList.add("animate");
+        }
+      });
+    };
+
+    window.addEventListener("scroll", animateOnScroll);
+    // Trigger once on load
+    animateOnScroll();
+
+    return () => window.removeEventListener("scroll", animateOnScroll);
+  }, []);
 
   return (
     <section id="benefits" className="py-0 bg-gradient-primary relative">

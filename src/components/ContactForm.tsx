@@ -63,7 +63,7 @@ const ContactForm = () => {
                     <Input
                       id="firstName"
                       name="firstName"
-                      placeholder="Juan"
+                      placeholder="John"
                       required
                       className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
                     />
@@ -80,7 +80,7 @@ const ContactForm = () => {
                     <Input
                       id="lastName"
                       name="lastName"
-                      placeholder="Perez"
+                      placeholder="Doe"
                       required
                       className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
                     />
@@ -99,7 +99,7 @@ const ContactForm = () => {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="juan.perez@example.com"
+                    placeholder="john.doe@example.com"
                     required
                     className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
                   />
@@ -117,7 +117,7 @@ const ContactForm = () => {
                     id="phone"
                     name="phone"
                     type="tel"
-                    placeholder="(55) 123-4567"
+                    placeholder="+1 (555) 123-4567"
                     className="w-full p-3 rounded-lg border border-gray-200 focus:border-purple focus:ring focus:ring-purple/20 transition-all"
                   />
                   <ValidationError

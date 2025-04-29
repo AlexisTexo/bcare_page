@@ -22,7 +22,7 @@ export const translations: Translations = {
   "nav.about": { en: "About Us", es: "Nosotros" },
   "nav.blog": { en: "Blog", es: "Blog" },
   "nav.landing": { en: "Landing", es: "Landing" },
-  "nav.contact": { en: "CONTACT US", es: "Contáctanos" },
+  "nav.contact": { en: "Contact Us", es: "Contáctanos" },
   "nav.getStarted": { en: "Contact Us", es: "Contáctanos" },
 
   // Hero
@@ -293,43 +293,13 @@ export const translations: Translations = {
 
   // Contact
   "contact.title": { en: "Contact Us", es: "Contáctanos" },
-  "contact.metaDescription": {
-    en: "Get in touch with our team of experts to transform your business",
-    es: "Contacta con nuestro equipo de expertos para transformar tu negocio",
-  },
-  "contact.metaKeywords": {
-    en: "contact, business consulting, software development, digital transformation",
-    es: "contacto, consultoría empresarial, desarrollo de software, transformación digital",
-  },
-  "contact.contactUs": { en: "Contact Us", es: "Contáctanos" },
   "contact.getInTouch": { en: "Get in Touch", es: "Ponte en Contacto" },
-  "contact.email.title": { en: "Email", es: "Correo Electrónico" },
-  "contact.email.value": {
-    en: "alexis.tellez@bcareit.com",
-    es: "alexis.tellez@bcareit.com",
-  },
-  "contact.phone.title": { en: "Phone", es: "Teléfono" },
-  "contact.phone.value": { en: "+52 55 1200 7050", es: "+52 55 1200 7050" },
-  "contact.address.title": { en: "Address", es: "Dirección" },
-  "contact.address.value": {
-    en: "Av. P.º de la Reforma 404, Juárez, Cuauhtémoc, 06600, Ciudad de México",
-    es: "Av. P.º de la Reforma 404, Juárez, Cuauhtémoc, 06600, Ciudad de México",
-  },
-  "contact.form.title": { en: "Contact Form", es: "Formulario de Contacto" },
-  "contact.form.subtitle": {
-    en: "Send us a Message",
-    es: "Envíanos un Mensaje",
-  },
-  "contact.form.description": {
-    en: "Fill out the form below and we'll get back to you as soon as possible",
-    es: "Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible",
-  },
   "contact.simplify": { en: "Simplify your", es: "Simplifica tu" },
   "contact.business": { en: "business", es: "negocio" },
   "contact.and": { en: "and your life", es: "y tu vida" },
   "contact.help": {
-    en: "Let us help optimize your business and reach your goals.",
-    es: "Déjenos ayudarle a optimizar su negocio y lograr sus objetivos.",
+    en: "Let us know how we can help you optimize your business operations and achieve your goals.",
+    es: "Háganos saber cómo podemos ayudarlo a optimizar las operaciones de su negocio y alcanzar sus objetivos.",
   },
   "contact.message": { en: "Send us a message", es: "Envíanos un mensaje" },
   "contact.firstName": { en: "First Name", es: "Nombre" },
@@ -340,8 +310,6 @@ export const translations: Translations = {
     en: "How can we help you?",
     es: "¿Cómo podemos ayudarte?",
   },
-  "contact.hours": { en: "Contact Hours", es: "Horario de Contacto" },
-
   "contact.placeholder": {
     en: "Tell us about your business needs...",
     es: "Cuéntanos sobre las necesidades de tu negocio...",
@@ -371,8 +339,8 @@ export const translations: Translations = {
   "contact.loading": { en: "Loading...", es: "Cargando..." },
   "contact.reach": { en: "Reach Out", es: "Contáctanos" },
   "contact.subtitle": {
-    en: "we're here to make your idea a reality",
-    es: "estamos aquí para hacer realidad tu idea",
+    en: "Let us know how we can help you optimize your business operations.",
+    es: "Háganos saber cómo podemos ayudarlo a optimizar las operaciones de su negocio.",
   },
   "contact.workingHours": { en: "Working Hours", es: "Horario de Trabajo" },
   "contact.monday": { en: "Monday - Friday", es: "Lunes - Viernes" },
@@ -516,7 +484,7 @@ export const translations: Translations = {
     en: "No results found",
     es: "No se encontraron resultados",
   },
-  "blog.viewAllPosts": { en: "View All Posts", es: "Ver Todos los artículos" },
+  "blog.viewAllPosts": { en: "View All Posts", es: "Ver Todos los Artículos" },
 
   // Contact page
   "blog.noFeaturedResults": {
@@ -588,7 +556,7 @@ export const translations: Translations = {
   },
 
   // Blog
-  "blog.articles": { en: "all Articles", es: "todos los artículos" },
+  "blog.articles": { en: "All Articles", es: "Todos los Artículos" },
 
   // Landing page
   "landing.hero.title": {
@@ -603,18 +571,6 @@ export const translations: Translations = {
     en: "CONTACT US",
     es: "CONTÁCTANOS",
   },
-  "landing.stats.experience": {
-    en: "Years of Experience",
-    es: "Años de Experiencia",
-  },
-  "landing.stats.clients": {
-    en: "Happy Clients",
-    es: "Clientes Satisfechos",
-  },
-  "landing.stats.projects": {
-    en: "Projects Completed",
-    es: "Proyectos Realizados",
-  },
   "landing.development.title": {
     en: "Software Development Services",
     es: "Servicios de Desarrollo de Software",
@@ -626,26 +582,6 @@ export const translations: Translations = {
   "landing.development.description": {
     en: "We create custom software solutions that solve complex business problems and drive growth.",
     es: "Creamos soluciones de software personalizadas que resuelven problemas empresariales complejos e impulsan el crecimiento.",
-  },
-
-  // Newsletter translations
-  "blog.newsletter": { en: "Newsletter", es: "Boletín Informativo" },
-  "blog.newsletterDescription": {
-    en: "Subscribe to receive the latest news and articles in your inbox",
-    es: "Suscríbete para recibir las últimas noticias y artículos en tu bandeja de entrada",
-  },
-  "blog.emailPlaceholder": {
-    en: "Your email address",
-    es: "Tu correo electrónico",
-  },
-  "blog.subscribe": { en: "Subscribe", es: "Suscribirse" },
-  "blog.privacyNotice": {
-    en: "We respect your privacy. You can unsubscribe at any time.",
-    es: "Respetamos tu privacidad. Puedes darte de baja en cualquier momento.",
-  },
-  "blog.subscriptionConfirmation": {
-    en: "You have successfully joined our subscriber list.",
-    es: "Te has suscrito correctamente a nuestra lista.",
   },
 };
 

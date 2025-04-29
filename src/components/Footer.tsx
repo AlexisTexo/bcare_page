@@ -11,8 +11,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import Newsletter from "./Newsletter";
-import { subscribeToNewsletter } from "@/lib/api";
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -21,7 +19,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="section-container py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
               <img
@@ -158,24 +156,6 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
-
-          <div>
-            <Newsletter
-              showTitle={true}
-              compact={true}
-              darkMode={true}
-              className="rounded-lg"
-              onSubmit={async (email) => {
-                try {
-                  const success = await subscribeToNewsletter(email, "brevo");
-                  return success;
-                } catch (error) {
-                  console.error("Error al suscribirse:", error);
-                  return false;
-                }
-              }}
-            />
           </div>
         </div>
       </div>

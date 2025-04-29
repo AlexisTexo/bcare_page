@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Benefits from "@/components/BenefitsLanding";
-import ContactForm from "@/components/ContactFormLanding";
+import Benefits from "@/components/Benefits";
+import ContactForm from "@/components/ContactForm";
 import Helmet from "@/components/SEO/Helmet";
-import ClientsSection from "@/components/ClientsSectionLanding";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -40,6 +39,34 @@ const Landing = () => {
     return () => window.removeEventListener("scroll", animateOnScroll);
   }, []);
 
+  // Clients from About.tsx
+  const clients = [
+    {
+      name: "Client 1",
+      logo: "https://i.imgur.com/kyGlgPI.png", // Logo 1
+    },
+    {
+      name: "Client 2",
+      logo: "https://i.imgur.com/PidbXY5.png", // Logo 2
+    },
+    {
+      name: "Client 3",
+      logo: "https://i.imgur.com/N8fGp0j.png", // Logo 3
+    },
+    {
+      name: "Client 4",
+      logo: "https://i.imgur.com/LbYv1He.png", // Logo 4
+    },
+    {
+      name: "Client 5",
+      logo: "https://i.imgur.com/PaaUTc9.png", // Logo 5
+    },
+    {
+      name: "Client 6",
+      logo: "https://i.imgur.com/T5cE1zp.png", // Logo 6
+    },
+  ];
+
   return (
     <>
       <Helmet
@@ -52,27 +79,16 @@ const Landing = () => {
         <Navbar />
 
         {/* Hero inspirado en la imagen */}
-        <section className="relative overflow-hidden min-h-[80vh] flex items-center">
-          {/* Background Image with Gradient */}
-          <div className="absolute inset-0">
-            <img
-              src="/img/landing_img.webp"
-              alt="Equipo de desarrollo"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#BF3131]/90 via-[#7D0A0A]/50 to-transparent"></div>
-          </div>
-
-          {/* Pattern Overlay */}
+        <section className="bg-purple relative overflow-hidden min-h-[55vh] flex items-center pt-20">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMSI+PHBhdGggZD0iTTM2IDM0aDR2MWgtNHYtMXptMC0zaDF2NGgtMXYtNHptLTUgM2g0djFoLTR2LTF6bTAgMGgxdjRoLTF2LTR6TTMwIDI0aDR2MWgtNHYtMXptMC0zaDF2NGgtMXYtNHptLTUgM2g0djFoLTR2LTF6bTAgMGgxdjRoLTF2LTR6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-10"></div>
 
-          <div className="section-container relative z-10">
+          <div className="section-container relative z-10 mt-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="text-white animate-on-scroll pt-40">
+              <div className="text-white animate-on-scroll">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                   {t("landing.hero.title")}
                 </h1>
-                <p className="text-lg md:text-xl text-white/90 mb-8 max-w-lg">
+                <p className="text-lg md:text-xl text-white/80 mb-8 max-w-lg">
                   {t("landing.hero.subtitle")}
                 </p>
                 <button
@@ -81,78 +97,58 @@ const Landing = () => {
                       .getElementById("contact-form")
                       ?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="bg-white text-black px-8 py-4 rounded-full font-semibold inline-flex items-center hover:bg-[#BF3131] hover:text-white transition-all shadow-lg cursor-pointer"
+                  className="bg-white text-purple px-8 py-4 rounded-full font-semibold inline-flex items-center hover:bg-purple-50 transition-all shadow-lg cursor-pointer"
                 >
                   <span>{t("landing.hero.cta")}</span>
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
               </div>
-
-              {/* Stats Panels */}
-              <div className="grid grid-cols-2 lg:grid-cols-1 gap-6 pt-20 lg:pt-40 lg:space-y-6">
-                <div className="col-span-1">
-                  {/* Experiencia Panel */}
-                  <div className="relative">
-                    <div className="absolute -inset-4 bg-white/10 rounded-3xl blur-3xl"></div>
-                    <div className="absolute -inset-4 bg-red-500/10 rounded-3xl blur-3xl"></div>
-                    <div
-                      className="relative glass-card p-8 backdrop-blur-sm bg-white/10 border border-white/20 
-                      transition-all duration-300 hover:bg-[#BF3131]/20 hover:scale-105 hover:shadow-lg cursor-pointer"
-                    >
-                      <div className="text-white text-center">
-                        <h3 className="text-5xl font-bold mb-2">10+</h3>
-                        <p className="text-white/80">
-                          {t("landing.stats.experience")}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-span-1">
-                  {/* Clientes Panel */}
-                  <div className="relative">
-                    <div className="absolute -inset-4 bg-white/10 rounded-3xl blur-3xl"></div>
-                    <div className="absolute -inset-4 bg-red-500/10 rounded-3xl blur-3xl"></div>
-                    <div
-                      className="relative glass-card p-8 backdrop-blur-sm bg-white/10 border border-white/20
-                      transition-all duration-300 hover:bg-[#BF3131]/20 hover:scale-105 hover:shadow-lg cursor-pointer"
-                    >
-                      <div className="text-white text-center">
-                        <h3 className="text-5xl font-bold mb-2">20+</h3>
-                        <p className="text-white/80">
-                          {t("landing.stats.clients")}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-span-2 lg:col-span-1">
-                  {/* Proyectos Panel */}
-                  <div className="relative">
-                    <div className="absolute -inset-4 bg-white/10 rounded-3xl blur-3xl"></div>
-                    <div className="absolute -inset-4 bg-red-500/10 rounded-3xl blur-3xl"></div>
-                    <div
-                      className="relative glass-card p-8 backdrop-blur-sm bg-white/10 border border-white/20
-                      transition-all duration-300 hover:bg-[#BF3131]/20 hover:scale-105 hover:shadow-lg cursor-pointer"
-                    >
-                      <div className="text-white text-center">
-                        <h3 className="text-5xl font-bold mb-2">20+</h3>
-                        <p className="text-white/80">
-                          {t("landing.stats.projects")}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+              <div className="hidden lg:block">
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl animate-on-scroll">
+                  <img
+                    src="https://images.pexels.com/photos/925786/pexels-photo-925786.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Equipo de desarrollo"
+                    className="w-full h-auto object-cover rounded-2xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple/40 to-transparent"></div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Clients Section */}
-        <ClientsSection variant="infinite" scrollSpeed="medium" />
+        {/* Panel de clientes igual al de about */}
+        <section className="py-20 bg-gradient-to-b from-purple-50 to-white">
+          <div className="section-container">
+            <div className="text-center mb-16">
+              <p className="text-sm uppercase tracking-wider text-purple font-semibold mb-2 animate-on-scroll">
+                {t("about.clients.title")}
+              </p>
+              <h2 className="section-title animate-on-scroll">
+                {t("about.clients.subtitle")}
+              </h2>
+              <p className="max-w-2xl mx-auto text-lg text-gray-600 animate-on-scroll">
+                {t("about.clients.description")}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+              {clients.map((client, index) => (
+                <div
+                  key={index}
+                  className="glass-card p-4 flex items-center justify-center animate-on-scroll hover:shadow-lg transition-all duration-500 hover:-translate-y-1"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <img
+                    src={client.logo}
+                    alt={client.name}
+                    className="max-h-20 w-auto"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* Benefits component */}
         <Benefits />
@@ -161,6 +157,8 @@ const Landing = () => {
         <div id="contact-form">
           <ContactForm />
         </div>
+
+        <Footer />
       </div>
     </>
   );
